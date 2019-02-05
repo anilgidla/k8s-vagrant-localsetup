@@ -1,0 +1,42 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+ENV['VAGRANT_NO_PARALLEL'] = 'yes'
+
+Vagrant.configure(2) do |config|
+
+  config.vm.provision "shell", path: "install_prerequisites.sh"
+
+  # Master Node
+  config.vm.define "kmaster" do |kmaster|
+    kmaster.vm.box = "centos/7"
+    kmaster.vm.hostname = "kmaster.com"
+	kmaster.disksize.size = "50GB"
+    kmaster.vm.network "private_network", ip: "100.10.10.100"
+    kmaster.vm.provider "virtualbox" do |v|
+      v.name = "kmaster"
+      v.memory = 2048
+      v.cpus = 2
+    end
+    kmaster.vm.provision "shell", path: "install_kubernetes_master.sh"
+  end
+
+  # Worker Nodes
+  NodeCount = 2
+  
+  (1..NodeCount).each do |i|
+    config.vm.define "kworker#{i}" do |workernode|
+      workernode.vm.box = "centos/7"
+      workernode.vm.hostname = "kworker#{i}.com"
+	  workernode.disksize.size = "50GB"
+      workernode.vm.network "private_network", ip: "100.10.10.10#{i}"
+      workernode.vm.provider "virtualbox" do |v|
+        v.name = "kworker#{i}"
+        v.memory = 8192
+        v.cpus = 2
+      end
+      workernode.vm.provision "shell", path: "install_kubernetes_worker.sh"
+    end
+  end
+
+end
