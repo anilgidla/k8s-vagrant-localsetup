@@ -30,7 +30,7 @@ This setup is used to create kubernetes cluster on  local laptop / desktop using
 <a id="deploy"></a>
 ## How to deploy kubernetes cluster ?
 * Open `bash` terminal 
-* Checkout the code  (git clone https://github.com/SubhakarKotta/k8s-vagrant.git) 
+* Checkout the code  (git clone https://github.com/anilgidla/k8s-vagrant-localsetup.git) 
 * `cd k8s-vagrant/provisioning` 
     
 	By running the below command kubernetes cluster will be created with 3 Centos VM's installed including Kubernetes Dashboard with [configuration](#configuration)
